@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Needle.Data;
 
 namespace Needle.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211002152855_CreateDatabasev4")]
+    partial class CreateDatabasev4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,115 +152,6 @@ namespace Needle.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Needle.Data.Entities.Area", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("District")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Ward")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Areas");
-                });
-
-            modelBuilder.Entity("Needle.Data.Entities.BelieverInformation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("IdArea")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdVaccinatePerson")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdVaccine")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberNeedle")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BelieverInformations");
-                });
-
-            modelBuilder.Entity("Needle.Data.Entities.EpidemicSituation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedUpdate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdArea")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberOfDeaths")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalCaseToDay")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalCases")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdArea");
-
-                    b.ToTable("EpidemicSituations");
-                });
-
-            modelBuilder.Entity("Needle.Data.Entities.HealthConsultation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Context")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("IdListOfHealthAdvice")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IdListOfHealthAdvice");
-
-                    b.ToTable("HealthConsultations");
-                });
-
             modelBuilder.Entity("Needle.Data.Entities.InforMedican", b =>
                 {
                     b.Property<int>("Id")
@@ -287,24 +180,6 @@ namespace Needle.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("InforMedicans");
-                });
-
-            modelBuilder.Entity("Needle.Data.Entities.ListOfHealthAdvice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ListOfHealthAdvices");
                 });
 
             modelBuilder.Entity("Needle.Data.Entities.MedicalDeclaration", b =>
@@ -515,27 +390,6 @@ namespace Needle.Migrations
                     b.ToTable("VaccinatedPersons");
                 });
 
-            modelBuilder.Entity("Needle.Data.Entities.Vaccine", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NameVaccine")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Qty")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Vaccines");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -585,28 +439,6 @@ namespace Needle.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Needle.Data.Entities.EpidemicSituation", b =>
-                {
-                    b.HasOne("Needle.Data.Entities.Area", "Area")
-                        .WithMany()
-                        .HasForeignKey("IdArea")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Area");
-                });
-
-            modelBuilder.Entity("Needle.Data.Entities.HealthConsultation", b =>
-                {
-                    b.HasOne("Needle.Data.Entities.ListOfHealthAdvice", "ListOfHealthAdvice")
-                        .WithMany()
-                        .HasForeignKey("IdListOfHealthAdvice")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ListOfHealthAdvice");
                 });
 #pragma warning restore 612, 618
         }

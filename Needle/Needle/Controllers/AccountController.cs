@@ -1,19 +1,25 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Needle.Data;
 using Needle.Data.Entities;
 using Needle.Dto;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Needle.Controllers
 {
+    [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
@@ -22,16 +28,19 @@ namespace Needle.Controllers
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
         private readonly IConfiguration config;
-
+        private readonly ApplicationDbContext applicationDbContext;
         public AccountController(ILogger<AccountController> logger,
             SignInManager<User> signInManager,
             UserManager<User> userManager,
-            IConfiguration config)
+            IConfiguration config,
+            ApplicationDbContext _applicationDbContext
+            )
         {
             this.logger = logger;
             this.signInManager = signInManager;
             this.userManager = userManager;
             this.config = config;
+            this.applicationDbContext = _applicationDbContext;
         }
 
         [HttpPost("register")]
@@ -42,27 +51,33 @@ namespace Needle.Controllers
                 var existingUser = await this.userManager.FindByNameAsync(model.NumberPhone);
                 if (existingUser == null)
                 {
-                    //try
-                    //{
-                    User user = new User();
-                    user.PhoneNumber = model.NumberPhone;
-                    user.UserName = model.NumberPhone;
-                    user.FullName = model.FullName;
+                    try
+                    {
+                        User user = new User();
+                        VaccinatedPerson vaccinatedPerson = new VaccinatedPerson();
+                        user.PhoneNumber = model.NumberPhone;
+                        user.UserName = model.NumberPhone;
+                        user.FullName = model.FullName;
+                        vaccinatedPerson.PhoneNumber = model.NumberPhone;
+                        vaccinatedPerson.FullName = model.FullName;
+                        await applicationDbContext.VaccinatedPersons.AddAsync(vaccinatedPerson);
+                        await applicationDbContext.SaveChangesAsync();
 
-                    IdentityResult result = userManager.CreateAsync(user, model.Password).Result;
+                        IdentityResult result = userManager.CreateAsync(user, model.Password).Result;
 
-                    if (result.Succeeded)
+                        if (result.Succeeded)
+                        {
+
+
+                            await userManager.AddToRoleAsync(user, "User");
+                            return Created("", model);
+
+                        }
+                    }
+                    catch (Exception e)
                     {
 
-
-                        await userManager.AddToRoleAsync(user, "User");
-                        return Created("", model);
-
                     }
-                    //}
-                    //catch (Exception e) { 
-
-                    //}
                 }
 
             }
@@ -110,6 +125,54 @@ namespace Needle.Controllers
                 }
             }
 
+            return BadRequest();
+        }
+
+        [HttpGet("user")]
+        [Authorize]
+        public async Task<IActionResult> GetUser(string numberPhone)
+        {
+            if (numberPhone != null)
+            {
+
+                var _user = await applicationDbContext.VaccinatedPersons.Where(item => item.PhoneNumber == numberPhone).FirstOrDefaultAsync();
+                return Ok(new
+                {
+                    user = _user
+                });
+            }
+            return BadRequest();
+
+        }
+        [HttpGet("believer-information")]
+        [Authorize]
+        public async Task<IActionResult> InformationAfterInjection(string numberPhone)
+        {
+            if (numberPhone != null)
+            {
+                var _user = applicationDbContext.VaccinatedPersons.Where(item => item.PhoneNumber == numberPhone).FirstOrDefault();
+                if (_user == null)
+                {
+                    ModelState.AddModelError("", "No User");
+                    return BadRequest(ModelState);
+                }
+                var _believerInformation = await applicationDbContext.BelieverInformations.FindAsync(_user.Id);
+                if (_believerInformation == null)
+                {
+                    ModelState.AddModelError("error", "No Believer Information");
+                    return BadRequest(ModelState);
+
+                }
+                var _vaccine = await applicationDbContext.Vaccines.FindAsync(_believerInformation.IdVaccine);
+                var _area = await applicationDbContext.Areas.FindAsync(_believerInformation.IdArea);
+                return Ok(new
+                {
+                    user = _user,
+                    vaccine = _vaccine,
+                    area = _area,
+                    numberNeedle = _believerInformation.NumberNeedle
+                });
+            }
             return BadRequest();
         }
     }
