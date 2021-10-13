@@ -1,0 +1,48 @@
+.nav-bar {
+  margin-top: 1rem;
+  .needle-logo {
+    width: 145px;
+  }
+  .nav-title {
+    color: #cf2338;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .nav-bar-list {
+    list-style-type: none;
+    margin: 2rem 0 0 0;
+    padding: 0;
+    width: 16rem;
+
+    .nav-bar-element {
+      background-color: #eff1f5;
+      height: 3rem;
+      margin: 0 0 3px 0;
+
+      box-sizing: border-box;
+      font-variant: tabular-nums;
+      line-height: 3rem;
+      font-feature-settings: "tnum", "tnum";
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 0 0 0 16px;
+      cursor: pointer;
+
+      text-decoration: none;
+      color: black;
+    }
+    .nav-bar-element:hover {
+      background-color: #cf2338;
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .active {
+      background-color: #cf2338;
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+  }
+}
