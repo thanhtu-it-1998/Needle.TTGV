@@ -1,0 +1,60 @@
+.App {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+}
+
+
+.body {
+  display: flex;
+  padding: 2rem;
+}
+.session {
+  margin: 3rem 0 0 7rem;
+  width: 58rem;
+}
+.session-title {
+  color: #cf2338;
+  font-size: 20px;
+  font-weight: 700;
+}
+.center {
+  text-align: center;
+}
+.form-create {
+  margin-top: 1rem;
+}
+.table {
+  width: 58rem;
+}
+
+.ltr {
+  direction: ltr;
+}
+.rtl {
+  direction: rtl;
+}
+.float-right {
+  float: right;
+}
+.float-left {
+  float: left;
+}
+
+.fp-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: #f8f8f8ad;
+}
+.fp-container .fp-loader {
+  top: 30%;
+  left: 48%;
+  z-index: 1000;
+  position: absolute;
+}
+.break-word {
+  word-break: break-word;
+}
