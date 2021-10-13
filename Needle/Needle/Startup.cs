@@ -53,11 +53,9 @@ namespace Needle
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
                 };
             });
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            {
-                builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-            }));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddCors();
+            services.AddControllers();
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
         }
 
@@ -74,12 +72,17 @@ namespace Needle
             {
                 app.UseHsts();
             }
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)); // allow credentials
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseRouting();
             app.UseDeveloperExceptionPage();
             app.UseAuthorization();
-            app.UseCors("MyPolicy");
+          
 
             app.UseEndpoints(endpoints =>
             {

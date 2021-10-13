@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 
 namespace Needle.Controllers
 {
-    [EnableCors("MyPolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
