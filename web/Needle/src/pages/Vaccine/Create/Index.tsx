@@ -44,7 +44,7 @@ export const VaccineCreate = () => {
           });
       })();
     }
-  }, [newVaccine]);
+  }, [newVaccine,push]);
   return (
     <div>
       <span className="session-title">Add Vaccine</span>

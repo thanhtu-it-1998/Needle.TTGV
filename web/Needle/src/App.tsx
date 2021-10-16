@@ -17,6 +17,8 @@ import { HealthAdviceCreate } from './pages/ListOfHealthAdvices/Create/Index';
 import { HealthAdviceEdit } from "./pages/ListOfHealthAdvices/Edit/Index";
 import { HealthConsultationCreate } from "./pages/HealthConsultations/Create/Index";
 import { HealthConsultationList } from "./pages/HealthConsultations/List";
+import { HealthConsultationEdit } from "./pages/HealthConsultations/Edit/Index";
+import { UserManager } from "./pages/User/list";
 
 function App() {
   const { classNameDefault, classNameActive } = appCtxDefaultValue;
@@ -69,8 +71,11 @@ function App() {
                     <Route exact path="/home">
                       <Home />
                     </Route>
-                    <Route exact path="/users/list">
-                      <Home />
+                    <Route exact path="/SignUpForVaccines/list">
+                      <UserManager />
+                    </Route>
+                    <Route exact path="/SignUpForVaccines/details">
+                      <UserManager />
                     </Route>
                     <Route exact path="/vaccine/create">
                       <VaccineCreate />
@@ -94,7 +99,7 @@ function App() {
                       <HealthConsultationCreate />
                     </Route>
                     <Route exact path="/healthConsultation/edit/:id">
-                      <HealthAdviceEdit />
+                      <HealthConsultationEdit />
                     </Route>
                     <Route exact path="/healthConsultation/list">
                       <HealthConsultationList />

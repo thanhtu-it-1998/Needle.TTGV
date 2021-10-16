@@ -14,6 +14,8 @@ export const HealthConsultationList = () => {
   const [idDelete, setIdDelete] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [detail, setDetail] = useState<any>();
+  const [idDetail, setIdDetail] = useState<any>();
+
   const { setCurrentRoute } = React.useContext(AppContext);
   const [listOfHealthAdvice, setListOfHealthAdvice] = React.useState<any>();
 
@@ -31,8 +33,7 @@ export const HealthConsultationList = () => {
           });
       })();
     }
-  
-});
+  });
   React.useEffect(() => {
     if (idDelete !== 0) {
       (async () => {
@@ -64,12 +65,28 @@ export const HealthConsultationList = () => {
     }
   }, [dataSource]);
 
+  React.useEffect(() => {
+    if (idDetail) {
+      (async () => {
+        await getData(Constant.URLBASE + "/api/HealthConsultations/" + idDetail)
+          .then((res) => {
+            setDetail(res.data);
+            setIsModalVisible(true);
+          })
+          .catch(() => {
+            message.error("Get fails");
+          });
+      })();
+    }
+  }, [idDetail]);
+
   const handleModalClose = () => {
     setIsModalVisible(false);
   };
-  const showModal = (des: any) => {
-    setDetail(des);
+  const showModal = (idDetail: any) => {
+    setIdDetail(idDetail);
     setIsModalVisible(true);
+
   };
   const FilterByNameInput = (
     <Input
@@ -110,7 +127,7 @@ export const HealthConsultationList = () => {
       key: "",
       render: (record: any) => (
         <>
-          <Button type="link" danger onClick={() => showModal(record)}>
+          <Button type="link" danger onClick={() => showModal(record.id)}>
             Detail
           </Button>
           <Button type="link" danger onClick={() => handleEditClick(record.id)}>
@@ -135,13 +152,13 @@ export const HealthConsultationList = () => {
   ];
   const handleEditClick = (id: any) => {
     const currentRoute: ICurrentRoute = {
-      firstRouteUrl: "/vaccine/list",
-      firstRoute: "Manage Vaccines",
+      firstRouteUrl: "/healthConsultation/list",
+      firstRoute: "Manage Health Consultations",
       secondRoute: "Edit",
     };
 
     setCurrentRoute(currentRoute);
-    push("/vaccine/edit/" + id);
+    push("/healthConsultation/edit/" + id);
   };
   const handleCreateClick = () => {
     const currentRoute: ICurrentRoute = {
@@ -175,26 +192,19 @@ export const HealthConsultationList = () => {
         pagination={{ pageSize: 5 }}
         dataSource={dataSource}
       />
-      {detail&&listOfHealthAdvice&& (
         <Modal
-          title={detail.title}
+          title={detail?.title}
           footer={false}
           visible={isModalVisible}
           onCancel={handleModalClose}
         >
-          {listOfHealthAdvice.map((e:any)=>{
-            console.log(e);
-            
-            (e.id===detail.idListOfHealthAdvice)&&
-              <span className="session-title">{e.title}</span>
-          })}
-          
-          <br />
-          <Image width={200} src={detail.image} />
+              <span className="session-title">{detail?.listOfHealthAdvice?.title}</span>
 
-          <p>{detail.context}</p>
+          <br />
+          <Image width={200} src={detail?.image} />
+
+          <p>{detail?.context}</p>
         </Modal>
-      )}
     </div>
   );
 };

@@ -52,13 +52,13 @@ export const NavBar = (props: any) => {
 
     });
     const currentRoute: ICurrentRoute = {
-      firstRouteUrl: "/users/list",
-      firstRoute: "Manage User",
+      firstRouteUrl: "/SignUpForVaccines/list",
+      firstRoute: "Manage Vaccination ",
       secondRoute: "",
     };
 
     setCurrentRoute(currentRoute);
-    history.push("/users/list");
+    history.push("/SignUpForVaccines/list");
   };
   const handleManageVaccine = () => {
     setIsNavBarActive({
@@ -184,7 +184,7 @@ export const NavBar = (props: any) => {
             className={classNameNavBarElement.manageUser}
             onClick={handleManageUser}
           >
-            <span>Manage Users</span>
+            <span>Manage Vaccination</span>
           </li>
           <li
             className={classNameNavBarElement.manageVaccine}
