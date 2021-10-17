@@ -1,46 +1,44 @@
-import { Table, Input, Button, message } from "antd";
-import React from "react";
-import "antd/dist/antd.css";
-import { getData } from "../../../services/axios";
-import { Constant } from "./../../../services/Constant";
+import { Button, Input, message, Table } from "antd";
 import { DetailModal } from "../detail/DetailModal";
-import { ConfirmModel } from "./../detail/ConfirmModel";
+import React from "react";
 import { ICurrentRoute } from "../../../models/ICurrentRoute";
+import { getData } from "../../../services/axios";
+import { Constant } from "../../../services/Constant";
 import { AppContext } from "../../../hooks/useGlobalContext";
 import { useHistory } from "react-router";
 
-export const UserManager = () => {
+export const Injected = () => {
   const [dataSource, setDataSource] = React.useState<any[]>([]);
   const [dataFilter, setDataFilter] = React.useState<any>([]);
-  const [listIdSelected, setListIdSelected] = React.useState<any[]>([]);
-  const [selectData, setSelectData] = React.useState<any[]>([]);
   const [phoneDetail, setphoneDetail] = React.useState<any>();
-  const [isReload, setIsReload] = React.useState(false);
   const [isModalVisible, setIsModalVisible] = React.useState(false);
-  const [isConfirmModel, setISConfirmModel] = React.useState(false);
   const { setCurrentRoute } = React.useContext(AppContext);
+  const [isReload,setIsReload] = React.useState(false)
   const { push } = useHistory();
+
   React.useEffect(() => {
     const currentRoute: ICurrentRoute = {
       firstRouteUrl: "/SignUpForVaccines/list",
       firstRoute: "Quản lý tiêm vaccine",
-      secondRoute: "Danh sách đăng ký tiêm",
+      secondRoute: "Danh sách Đã tiêm",
     };
 
     setCurrentRoute(currentRoute);
-    (async () => {
-      await getData(
-        Constant.URLBASE + "/api/SignUpForVaccines/get-list-vaccinated-person"
-      )
-        .then((res) => {
-          setDataSource(res.data);
-        })
-        .catch(() => {
-          message.error("Get fails");
-        });
-    })();
-  }, [isReload]);
-
+        (async () => {
+          await getData(
+            Constant.URLBASE +
+              "/api/SignUpForVaccines/get-list-vaccinated-person-end"
+          )
+            .then((res) => {
+              setDataSource(res.data);
+            })
+            .catch(() => {
+              message.error("Get fails");
+            });
+        })();
+       
+    
+  },[isReload]);
   const columns = [
     {
       title: "Họ và tên",
@@ -91,33 +89,8 @@ export const UserManager = () => {
       ),
     },
   ];
-
-  React.useEffect(() => {
-    setListIdSelected([]);
-    selectData.forEach((e: any) => {
-      setListIdSelected([...listIdSelected, e.id]);
-    });
-  }, [selectData]);
-
-  const rowSelection = {
-    onChange: (selectedRowKeys: any, selectedRows: any) => {
-      setSelectData(selectedRows);
-    },
-
-    onSelect: (record: any, selected: any, selectedRows: any) => {
-      setSelectData(selectedRows);
-    },
-
-    onSelectAll: (selected: any, selectedRows: any, changeRows: any) => {
-      setSelectData(selectedRows);
-    },
-  };
-
   const handleModalClose = () => {
     setIsModalVisible(false);
-  };
-  const handleModalConfirmClose = () => {
-    setISConfirmModel(false);
   };
   return (
     <>
@@ -138,7 +111,14 @@ export const UserManager = () => {
       <Button
         danger
         onClick={() => {
-          setISConfirmModel(true);
+          const currentRoute: ICurrentRoute = {
+            firstRouteUrl: "/SignUpForVaccines/list",
+            firstRoute: "Quản lý tiêm vaccine",
+            secondRoute: "Danh sách đăng ký tiêm",
+          };
+
+          setCurrentRoute(currentRoute);
+          push("/SignUpForVaccines/list");
         }}
       >
         Xác nhận đăng ký tiêm
@@ -152,39 +132,17 @@ export const UserManager = () => {
       >
         Xác nhận đã tiêm
       </Button>
-      <Button
-        style={{ marginLeft: "12px" }}
-        danger
-        onClick={() => {
-          push("/injected");
-        }}
-      >
-        Danh sách đã tiêm
-      </Button>
-      <br />
-      <br />
+      <br /><br />
       <Table
         rowKey="id"
         columns={columns}
-        rowSelection={{ ...rowSelection }}
         dataSource={!dataFilter.length ? dataSource : dataFilter}
       />
-      <div>
-        <DetailModal
-          phoneDetail={phoneDetail}
-          handleModalClose={handleModalClose}
-          isModalVisible={isModalVisible}
-        />
-        <ConfirmModel
-          isModalVisible={isConfirmModel}
-          setISConfirmModel={setISConfirmModel}
-          isReload={isReload}
-          setIsReload={setIsReload}
-          listIdVaccinatePerson={listIdSelected}
-          setListIdSelected={setListIdSelected}
-          handleModalClose={handleModalConfirmClose}
-        />
-      </div>
+      <DetailModal
+        phoneDetail={phoneDetail}
+        handleModalClose={handleModalClose}
+        isModalVisible={isModalVisible}
+      />
     </>
   );
 };

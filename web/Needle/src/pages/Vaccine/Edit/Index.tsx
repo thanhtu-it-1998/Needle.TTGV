@@ -26,7 +26,7 @@ export const VaccineEdit = () => {
   };
 
   const layout = {
-    labelCol: { span: 8 },
+    labelCol: { span: 2 },
     wrapperCol: { span: 16 },
   };
 
@@ -54,7 +54,7 @@ export const VaccineEdit = () => {
         };
         await putData(Constant.URLBASE + "/api/Vaccines/"+id, data)
           .then((res) => {
-              message.success("Update success .");
+              message.success("Cập nhâp thành công");
               push("/vaccine/list");
           })
           .catch(() => {
@@ -67,7 +67,9 @@ export const VaccineEdit = () => {
 
   return (
     <div>
-      <span className="session-title">Edit Vaccine</span>
+      <span className="session-title">Cập nhập Vaccine</span>
+      <br /><br /><br />
+
     {oldVaccine&&  <Form
         {...layout}
         name="nest-messages"
@@ -84,21 +86,21 @@ export const VaccineEdit = () => {
         </Form.Item>
         <Form.Item
           name="qty"
-          label="Quantity"
+          label="Số lượng"
           rules={[{ required: true, type: "number", min: 0 }]}
         >
           <InputNumber />
         </Form.Item>
         <Form.Item
           name="description"
-          label="Description"
+          label="Mô tả"
           rules={[{ required: true }]}
         >
           <Input.TextArea autoSize  />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" danger htmlType="submit">
-            Save
+            Cập nhập
           </Button>
         </Form.Item>
       </Form>}

@@ -83,8 +83,31 @@ export const DetailModal = (prop: any) => {
           visible={isModalVisible}
           onCancel={handleModalClose}
         >
-          <p>1.Trong vòng 14 ngày ,có tiếp xúc với người bệnh hoặc nghi ngờ mắc Covid : <b>{detailMedicalDeclaration?.standardOne===true?"Có":"Không"}</b> </p>
-
+          <p>1. Trong vòng 14 ngày ,có tiếp xúc với người bệnh hoặc nghi ngờ mắc Covid : <b>{detailMedicalDeclaration?.standardOne===true?"Có":"Không"}</b> </p>
+          <p>2. Trong 14 ngày có tiếp xúc với người từ nước có dịch Covid :  <b>{detailMedicalDeclaration?.standardTwo===true?"Có":"Không"}</b></p>
+          <p>3. Trong 14 ngày có tiếp xúc với người có biểu hiện ho-sốt-khó thở-đau họng : <b>{detailMedicalDeclaration?.standardThree===true?"Có":"Không"}</b></p>
+          <p><b>Trong 14 ngày gần đây :  </b></p>
+          <p>1: Sốt : <b>{detailMedicalDeclaration?.standardFour===true?"Có":"Không"}</b></p>
+          <p>2: Ho : <b>{detailMedicalDeclaration?.standardFive===true?"Có":"Không"}</b></p>
+          <p>3: Khó thở : <b>{detailMedicalDeclaration?.standardSix===true?"Có":"Không"}</b></p>
+          <p>4: Viêm phổi : <b>{detailMedicalDeclaration?.standardSeven===true?"Có":"Không"}</b></p>
+          <p>5: Đau họng : <b>{detailMedicalDeclaration?.standardEight===true?"Có":"Không"}</b></p>
+          <p>6: Mệt mỏi : <b>{detailMedicalDeclaration?.standardNine===true?"Có":"Không"}</b></p>
+          <p>7: Giảm hoặc mất khứu giác : <b>{detailMedicalDeclaration?.standardTen===true?"Có":"Không"}</b></p>
+          <p>8: Các triệu chứng khác : <b>{detailMedicalDeclaration?.standardEleven}</b></p>
+          <p><b>Hiện đang mắc bệnh :  </b></p>
+          <p>1: Gan mãn tính : <b>{detailMedicalDeclaration?.standardTwelve===true?"Có":"Không"}</b></p>
+          <p>2: Máu mãn tính : <b>{detailMedicalDeclaration?.standardThirteen===true?"Có":"Không"}</b></p>
+          <p>3: Phổi mãn tính : <b>{detailMedicalDeclaration?.standardFourteen===true?"Có":"Không"}</b></p>
+          <p>4: Thận mãn tính : <b>{detailMedicalDeclaration?.standardFifteen===true?"Có":"Không"}</b></p>
+          <p>5: Tim mạch : <b>{detailMedicalDeclaration?.standardSixteen===true?"Có":"Không"}</b></p>
+          <p>6: Huyết áp cao : <b>{detailMedicalDeclaration?.standardSeventeen===true?"Có":"Không"}</b></p>
+          <p>7: HIV hoặc suy giảm miễn dịch : <b>{detailMedicalDeclaration?.standardEighteen===true?"Có":"Không"}</b></p>
+          <p>8: Người ghép tạng hặc tủy , sương : <b>{detailMedicalDeclaration?.standardNineteen}</b></p>
+          <p>9: Tiểu đường : <b>{detailMedicalDeclaration?.standardTwenty===true?"Có":"Không"}</b></p>
+          <p>10: Ung thư : <b>{detailMedicalDeclaration?.standardTwentyOne===true?"Có":"Không"}</b></p>
+          <p>11: Đang trong giai đoạn thai kỳ : <b>{detailMedicalDeclaration?.standardTwentyTwo===true?"Có":"Không"}</b></p>
+         
         </Modal>
       </Modal>
     </>

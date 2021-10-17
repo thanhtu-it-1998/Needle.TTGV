@@ -41,7 +41,7 @@ export const HealthConsultationList = () => {
           Constant.URLBASE + "/api/HealthConsultations/" + idDelete
         )
           .then((res) => {
-            message.success("Deleted Success ");
+            message.success("Thành công");
             setDataSource([]);
           })
           .catch(() => {
@@ -90,13 +90,13 @@ export const HealthConsultationList = () => {
   };
   const FilterByNameInput = (
     <Input
-      placeholder="title"
+      placeholder="Tiêu đề"
       value={value}
       onChange={(e) => {
         const currValue = e.target.value;
         setValue(currValue);
         const filteredData = dataSource.filter((entry) =>
-          entry.nameVaccine.includes(currValue)
+          entry.nameVaccine.toLowerCase().includes(currValue.toLowerCase())
         );
         setDataSource(filteredData);
       }}
@@ -118,7 +118,7 @@ export const HealthConsultationList = () => {
       key: "title",
     },
     {
-      title: "Created Date",
+      title: "Ngày tạo ",
       dataIndex: "createdDate",
       key: "createdDate",
     },
@@ -128,22 +128,22 @@ export const HealthConsultationList = () => {
       render: (record: any) => (
         <>
           <Button type="link" danger onClick={() => showModal(record.id)}>
-            Detail
+            Chi tiết
           </Button>
           <Button type="link" danger onClick={() => handleEditClick(record.id)}>
-            Edit
+            Cập nhập
           </Button>
           <Popconfirm
             title="Are you sure to delete this vaccine?"
             onConfirm={() => confirm(record.id)}
             onCancel={cancel}
-            okText="Yes"
+            okText="Xóa"
             okType="danger"
             icon={<QuestionCircleOutlined style={{ color: "red" }} />}
-            cancelText="No"
+            cancelText="Hủy"
           >
             <Button type="link" danger>
-              Delete
+              Xóa
             </Button>
           </Popconfirm>
         </>
@@ -153,8 +153,8 @@ export const HealthConsultationList = () => {
   const handleEditClick = (id: any) => {
     const currentRoute: ICurrentRoute = {
       firstRouteUrl: "/healthConsultation/list",
-      firstRoute: "Manage Health Consultations",
-      secondRoute: "Edit",
+      firstRoute: "Quản lý bài viết",
+      secondRoute: "Cập nhập",
     };
 
     setCurrentRoute(currentRoute);
@@ -163,8 +163,8 @@ export const HealthConsultationList = () => {
   const handleCreateClick = () => {
     const currentRoute: ICurrentRoute = {
       firstRouteUrl: "/healthConsultation/list",
-      firstRoute: "Manage Health Consultations",
-      secondRoute: "Create",
+      firstRoute: "Quản lý bài viết",
+      secondRoute: "Tạo mới",
     };
 
     setCurrentRoute(currentRoute);
@@ -172,7 +172,7 @@ export const HealthConsultationList = () => {
   };
   return (
     <div>
-      <span className="session-title">Health Consultation List</span>
+      <span className="session-title">Quản lý bài viết</span>
       <br />
       <br />
       <Button
@@ -182,7 +182,7 @@ export const HealthConsultationList = () => {
         icon={<PlusOutlined />}
         size="large"
       >
-        Create
+        Tạo mới
       </Button>
       <br />
       <br />

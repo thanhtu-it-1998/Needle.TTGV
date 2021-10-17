@@ -16,11 +16,11 @@ export const HealthAdviceEdit = () => {
     setNewData(data);
   };
   const validateMessages = {
-    required: "${label} is required!",
+    required: "${label} không được để trống!",
   };
 
   const layout = {
-    labelCol: { span: 8 },
+    labelCol: { span: 2 },
     wrapperCol: { span: 16 },
   };
 
@@ -48,7 +48,7 @@ export const HealthAdviceEdit = () => {
         };
         await putData(Constant.URLBASE + "/api/ListOfHealthAdvices/"+id, data)
           .then((res) => {
-              message.success("Update success .");
+              message.success("Thành công");
               push("/HealthAdvices/list");
           })
           .catch(() => {
@@ -61,7 +61,9 @@ export const HealthAdviceEdit = () => {
 
   return (
     <div>
-      <span className="session-title">Edit Vaccine</span>
+      <span className="session-title">Cập nhật Vaccine</span>
+      <br /><br /><br />
+
     {oldData&&  <Form
         {...layout}
         name="nest-messages"
@@ -72,19 +74,19 @@ export const HealthAdviceEdit = () => {
         }}
         validateMessages={validateMessages}
       >
-        <Form.Item name="title" label="Title" rules={[{ required: true }]}>
+        <Form.Item name="title" label="Tiêu đề" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
         <Form.Item
           name="description"
-          label="Description"
+          label="Mô tả"
           rules={[{ required: true }]}
         >
           <Input.TextArea autoSize />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" danger htmlType="submit">
-            Save
+            Cập nhập
           </Button>
         </Form.Item>
       </Form>}

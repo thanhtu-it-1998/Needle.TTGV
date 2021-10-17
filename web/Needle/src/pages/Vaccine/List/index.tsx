@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Modal, Input, Table, message, Button, Popconfirm } from "antd";
+import { Modal, Input, Table, message, Button } from "antd";
 import "antd/dist/antd.css";
 import { IVaccine } from "./../../../models/IVaccine";
-import { deleteData, getData } from "../../../services/axios";
+import { getData } from "../../../services/axios";
 import { Constant } from "./../../../services/Constant";
-import { PlusOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { AppContext } from "../../../hooks/useGlobalContext";
 import { useHistory } from "react-router-dom";
 import { ICurrentRoute } from "../../../models/ICurrentRoute";
@@ -12,28 +12,19 @@ import { ICurrentRoute } from "../../../models/ICurrentRoute";
 export const ListVaccine = () => {
   const [dataSource, setDataSource] = useState<IVaccine[]>([]);
   const [value, setValue] = useState("");
-  const [idDelete, setIdDelete] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [description, setDescription] = useState("Some contents...");
   const { setCurrentRoute } = React.useContext(AppContext);
   const { push } = useHistory();
 
   React.useEffect(() => {
-    if (idDelete !== 0) {
-      (async () => {
-        await deleteData(Constant.URLBASE + "/api/Vaccines/" + idDelete)
-          .then((res) => {
-            message.success("Deleted Success ");
-            setDataSource([]);
-          })
-          .catch(() => {
-            message.error("Delete vaccine fails");
-          });
-      })();
-    }
-  }, [idDelete]);
+    const currentRoute: ICurrentRoute = {
+      firstRouteUrl: "/vaccine/list",
+      firstRoute: "Quản lý Vaccines",
+      secondRoute: "Danh sách",
+    };
 
-  React.useEffect(() => {
+    setCurrentRoute(currentRoute);
     if (dataSource.length === 0) {
       (async () => {
         await getData(Constant.URLBASE + "/api/Vaccines")
@@ -45,7 +36,7 @@ export const ListVaccine = () => {
           });
       })();
     }
-  }, [dataSource]);
+  }, [dataSource,setCurrentRoute]);
 
   const handleModalClose = () => {
     setIsModalVisible(false);
@@ -56,27 +47,19 @@ export const ListVaccine = () => {
   };
   const FilterByNameInput = (
     <Input
-      placeholder="Name Vaccine"
+      placeholder="Tên Vaccine"
       value={value}
       onChange={(e) => {
         const currValue = e.target.value;
         setValue(currValue);
         const filteredData = dataSource.filter((entry) =>
-          entry.nameVaccine.includes(currValue)
+          entry.nameVaccine.toLowerCase().includes(currValue.toLowerCase())
         );
         setDataSource(filteredData);
       }}
     />
   );
 
-  const confirm = (id: any) => {
-    setIdDelete(id);
-  };
-
-  const cancel = (e: any) => {
-    console.log(e);
-    message.error("Click on No");
-  };
   const columns = [
     {
       title: FilterByNameInput,
@@ -84,7 +67,7 @@ export const ListVaccine = () => {
       key: "nameVaccine",
     },
     {
-      title: "Quantity",
+      title: "Số lượng",
       dataIndex: "qty",
       key: "qty",
       sorter: {
@@ -102,24 +85,11 @@ export const ListVaccine = () => {
             danger
             onClick={() => showModal(record.description)}
           >
-            Detail
+            Chi tiết
           </Button>
           <Button type="link" danger onClick={() => handleEditClick(record.id)}>
-            Edit
+            Cập nhập
           </Button>
-          <Popconfirm
-            title="Are you sure to delete this vaccine?"
-            onConfirm={() => confirm(record.id)}
-            onCancel={cancel}
-            okText="Yes"
-            okType="danger"
-            icon={<QuestionCircleOutlined style={{ color: "red" }} />}
-            cancelText="No"
-          >
-            <Button type="link" danger>
-              Delete
-            </Button>
-          </Popconfirm>
         </>
       ),
     },
@@ -127,8 +97,8 @@ export const ListVaccine = () => {
   const handleEditClick = (id: any) => {
     const currentRoute: ICurrentRoute = {
       firstRouteUrl: "/vaccine/list",
-      firstRoute: "Manage Vaccines",
-      secondRoute: "Edit",
+      firstRoute: "Quản lý Vaccines",
+      secondRoute: "Cập nhâpj",
     };
 
     setCurrentRoute(currentRoute);
@@ -137,8 +107,8 @@ export const ListVaccine = () => {
   const handleCreateClick = () => {
     const currentRoute: ICurrentRoute = {
       firstRouteUrl: "/vaccine/list",
-      firstRoute: "Manage Vaccines",
-      secondRoute: "Create",
+      firstRoute: "Quản lý Vaccines",
+      secondRoute: "Tạo mới",
     };
 
     setCurrentRoute(currentRoute);
@@ -146,7 +116,7 @@ export const ListVaccine = () => {
   };
   return (
     <div>
-      <span className="session-title">Vaccine List</span>
+      <span className="session-title">Danh sách Vaccine</span>
       <br />
       <br />
       <Button
@@ -156,7 +126,7 @@ export const ListVaccine = () => {
         icon={<PlusOutlined />}
         size="large"
       >
-        Create
+        Tạo mới
       </Button>
       <br />
       <br />
@@ -167,7 +137,7 @@ export const ListVaccine = () => {
         dataSource={dataSource}
       />
       <Modal
-        title="Description"
+        title="Mô tả"
         footer={false}
         visible={isModalVisible}
         onCancel={handleModalClose}

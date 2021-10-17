@@ -27,7 +27,7 @@ export const ListHealthAdvice = () => {
     if (idDelete!==0) {
       (async()=>{
         await deleteData(Constant.URLBASE+"/api/ListOfHealthAdvices/"+idDelete).then(res=>{
-            message.success("Deleted Success ");
+            message.success("Thành Công");
             setDataSource([]);
         }).catch(()=>{
           message.error("Delete Health Advice fails");
@@ -37,6 +37,13 @@ export const ListHealthAdvice = () => {
   },[idDelete]);
 
   React.useEffect(()=>{
+    const currentRoute: ICurrentRoute = {
+      firstRouteUrl: "/HealthAdvices/list",
+      firstRoute: "Quản lý danh mục bài viết",
+      secondRoute: "Danh sách",
+    };
+
+    setCurrentRoute(currentRoute);
          if (dataSource.length===0) {
           (async()=>{
             await getData(Constant.URLBASE+"/api/ListOfHealthAdvices").then(res=>{
@@ -58,13 +65,13 @@ export const ListHealthAdvice = () => {
   };
   const FilterByNameInput = (
     <Input
-      placeholder="Title"
+      placeholder="Tiêu đề"
       value={value}
       onChange={(e) => {
         const currValue = e.target.value;
         setValue(currValue);
         const filteredData = dataSource.filter((entry) =>
-          entry.title.includes(currValue)
+          entry.title.toLowerCase().includes(currValue.toLowerCase())
         );
         setDataSource(filteredData);
       }}
@@ -90,18 +97,18 @@ export const ListHealthAdvice = () => {
     dataIndex: '',
     key: '',
     render: (record:any) =><> 
-    <Button type="link" danger onClick={()=>showModal(record.description)}>Detail</Button>
-    <Button type="link" danger onClick={()=>handleEditClick(record.id)}>Edit</Button>
+    <Button type="link" danger onClick={()=>showModal(record.description)}>Chi tiết</Button>
+    <Button type="link" danger onClick={()=>handleEditClick(record.id)}>Cập nhập</Button>
     <Popconfirm
-    title="Are you sure to delete this Health Advice?"
+    title="Bạn chắc chán là muốn xóa danh mục này?"
     onConfirm={()=>confirm(record.id)}
     onCancel={cancel}
-    okText="Yes"
+    okText="Xóa"
     okType="danger"
     icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-    cancelText="No"
+    cancelText="Hủy"
   >
-    <Button type="link" danger>Delete</Button>
+    <Button type="link" danger>Xóa</Button>
   </Popconfirm>
     </>,
     }
@@ -109,8 +116,8 @@ export const ListHealthAdvice = () => {
   const handleEditClick = (id:any) =>{
     const currentRoute: ICurrentRoute = {
       firstRouteUrl: "/HealthAdvices/list",
-      firstRoute: "Manage Health Advices",
-      secondRoute: "Edit",
+      firstRoute: "Quản lý danh mục bài viết",
+      secondRoute: "Cập nhập",
     };
 
     setCurrentRoute(currentRoute);
@@ -119,8 +126,8 @@ export const ListHealthAdvice = () => {
   const handleCreateClick = ()=>{
     const currentRoute: ICurrentRoute = {
       firstRouteUrl: "/HealthAdvices/list",
-      firstRoute: "Manage Health Advices",
-      secondRoute: "Create",
+      firstRoute: "Quản lý danh mục bài viết",
+      secondRoute: "Tạo mới",
     };
 
     setCurrentRoute(currentRoute);
@@ -130,16 +137,16 @@ export const ListHealthAdvice = () => {
     
   return (
     <div>
-      <span className="session-title">Health Advices</span>
+      <span className="session-title">Quản lý danh mục bài viết</span>
       <br /><br />
-      <Button type="primary" onClick={handleCreateClick} danger icon={<PlusOutlined />} size="large">Create</Button>
+      <Button type="primary" onClick={handleCreateClick} danger icon={<PlusOutlined />} size="large">Tạo mới</Button>
       <br /><br />
       <Table columns={columns} 
       key="id"
       pagination={{pageSize:5}}
       dataSource={dataSource}
       />
-      <Modal title="Description" footer={false} visible={isModalVisible} onCancel={handleModalClose}>
+      <Modal title="Mô tả" footer={false} visible={isModalVisible} onCancel={handleModalClose}>
         <p>{description}</p>
       </Modal>
       </div>

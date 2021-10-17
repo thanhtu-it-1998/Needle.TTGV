@@ -35,7 +35,7 @@ export const NavBar = (props: any) => {
     });
     const currentRoute: ICurrentRoute = {
       firstRouteUrl: "/home",
-      firstRoute: "Home",
+      firstRoute: "Trang Chủ",
       secondRoute: "",
     };
 
@@ -53,7 +53,7 @@ export const NavBar = (props: any) => {
     });
     const currentRoute: ICurrentRoute = {
       firstRouteUrl: "/SignUpForVaccines/list",
-      firstRoute: "Manage Vaccination ",
+      firstRoute: "Quản lý tiêm",
       secondRoute: "",
     };
 
@@ -71,7 +71,7 @@ export const NavBar = (props: any) => {
     });
     const currentRoute: ICurrentRoute = {
       firstRouteUrl: "/vaccine/list",
-      firstRoute: "Manage Vaccines",
+      firstRoute: "Quản lý Vaccines",
       secondRoute: "",
     };
     setCurrentRoute(currentRoute);
@@ -88,7 +88,7 @@ export const NavBar = (props: any) => {
     });
     const currentRoute: ICurrentRoute = {
       firstRouteUrl: "/HealthAdvices/list",
-      firstRoute: "Manage Health Advices",
+      firstRoute: "Danh mục bài viết ",
       secondRoute: "",
     };
     setCurrentRoute(currentRoute);
@@ -105,7 +105,7 @@ export const NavBar = (props: any) => {
     });
     const currentRoute: ICurrentRoute = {
       firstRouteUrl: "/healthConsultation/list",
-      firstRoute: "Manage Health Consultations",
+      firstRoute: " Quản lý bài viết",
       secondRoute: "",
     };
     setCurrentRoute(currentRoute);
@@ -174,35 +174,35 @@ export const NavBar = (props: any) => {
       <div>
         <img src={NeedleLogo} className="needle-logo" alt="Needle Logo" />
       </div>
-      <span className="nav-title">Online Vaccination Management</span>
+      <span className="nav-title">Quản lý tiêm vaccine trực tuyến</span>
       <ul className="nav-bar-list">
         <li className={classNameNavBarElement.home} onClick={handleHome}>
-          <span>Home</span>
+          <span>Trang Chủ</span>
         </li>
         <>
           <li
             className={classNameNavBarElement.manageUser}
             onClick={handleManageUser}
           >
-            <span>Manage Vaccination</span>
+            <span>Quản lý tiêm</span>
           </li>
           <li
             className={classNameNavBarElement.manageVaccine}
             onClick={handleManageVaccine}
           >
-            <span>Manage Vaccines</span>
+            <span>Quản lý Vaccines</span>
           </li>
           <li
             className={classNameNavBarElement.manageHealthAdvices}
             onClick={handleManageHealthAdvices}
           >
-            <span>Manage Health Advices</span>
+            <span>Danh mục bài viết</span>
           </li>
           <li
             className={classNameNavBarElement.manageHealthConsultation}
             onClick={handleManageHHealthConsultation}
           >
-            <span>Health Consultations</span>
+            <span>Quản lý bài viết</span>
           </li>
         </>
       </ul>

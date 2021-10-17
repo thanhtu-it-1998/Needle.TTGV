@@ -52,11 +52,5 @@ axios.interceptors.request.use(function (config) {
         return config;
     }
     config.headers.Authorization = "Bearer "+ token;
-    // config.headers={
-    //     "Content-Type": "application/json",
-    //     'Access-Control-Allow-Origin': "*",
-    //     "Authorization":"Bearer "+ token
-    //     }
-
     return config;
   });

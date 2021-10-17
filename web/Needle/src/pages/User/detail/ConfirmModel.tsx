@@ -43,8 +43,10 @@ export const ConfirmModel = (props: any) => {
                   newData
                 )
                   .then((res) => {
+                    props.setIsReload(!props.isReload);
                     message.success("Success");
                     props.setISConfirmModel(false);
+                    props.setListIdSelected([]);
                   })
                   .catch(() => {
                     message.error("Fails");

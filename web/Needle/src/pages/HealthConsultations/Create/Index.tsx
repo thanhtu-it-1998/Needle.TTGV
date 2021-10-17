@@ -19,7 +19,7 @@ export const HealthConsultationCreate = () => {
   };
 
   const layout = {
-    labelCol: { span: 8 },
+    labelCol: { span: 2 },
     wrapperCol: { span: 16 },
   };
   const { Option } = Select;
@@ -69,7 +69,9 @@ export const HealthConsultationCreate = () => {
 
   return (
     <div>
-      <span className="session-title">Add Health Consultation</span>
+      <span className="session-title">Tạo mới bài viết</span>
+      <br /><br /><br />
+
       {listOfHealthAdvice && (
         <Form
           {...layout}
@@ -82,12 +84,12 @@ export const HealthConsultationCreate = () => {
           </Form.Item>
           <Form.Item
             name="idListOfHealthAdvice"
-            label="Health Advice"
+            label="Danh mục bài viết"
             rules={[{ required: true }]}
           >
             <Select
               showSearch
-              placeholder="Select a Health Advice"
+              placeholder="Chon danh mục bài viếte"
               optionFilterProp="children"
               onSearch={onSearch}
               filterOption={(input: any, option: any) =>
@@ -102,20 +104,20 @@ export const HealthConsultationCreate = () => {
             </Select>
           </Form.Item>
 
-          <Form.Item name="image" label="Image" rules={[{ required: true }]}>
-            <Input onChange={handleDisplayImage} placeholder="Add link image" />
+          <Form.Item name="image" label="Hình ảnh" rules={[{ required: true }]}>
+            <Input onChange={handleDisplayImage} placeholder="Nhập vào liên kết hình ảnh" />
           </Form.Item>
           <Image width={200} style={{ marginLeft: 321 }} src={linkImage} />
           <Form.Item
             name="context"
-            label="Content"
+            label="Nội dung"
             rules={[{ required: true }]}
           >
             <Input.TextArea autoSize={{ minRows: 6 }} />
           </Form.Item>
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <Button type="primary" danger htmlType="submit">
-              Save
+              Lưu
             </Button>
           </Form.Item>
         </Form>

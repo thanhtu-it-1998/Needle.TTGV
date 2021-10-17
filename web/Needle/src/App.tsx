@@ -19,6 +19,8 @@ import { HealthConsultationCreate } from "./pages/HealthConsultations/Create/Ind
 import { HealthConsultationList } from "./pages/HealthConsultations/List";
 import { HealthConsultationEdit } from "./pages/HealthConsultations/Edit/Index";
 import { UserManager } from "./pages/User/list";
+import { VaccinationConfirm } from "./pages/User/list/VaccinationConfirm";
+import { Injected } from './pages/User/list/Injected';
 
 function App() {
   const { classNameDefault, classNameActive } = appCtxDefaultValue;
@@ -103,6 +105,15 @@ function App() {
                     </Route>
                     <Route exact path="/healthConsultation/list">
                       <HealthConsultationList />
+                    </Route>
+                    <Route exact path="/vaccinationConfirm">
+                      <VaccinationConfirm />
+                    </Route>
+                    <Route exact path="/healthConsultation/list">
+                      <HealthConsultationList />
+                    </Route>
+                    <Route exact path="/injected">
+                      <Injected />
                     </Route>
                   </Switch>
                 </div>

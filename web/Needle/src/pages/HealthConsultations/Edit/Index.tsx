@@ -20,7 +20,7 @@ export const HealthConsultationEdit = () => {
   };
 
   const layout = {
-    labelCol: { span: 8 },
+    labelCol: { span: 2 },
     wrapperCol: { span: 16 },
   };
   const { Option } = Select;
@@ -86,7 +86,9 @@ export const HealthConsultationEdit = () => {
   };
   return (
     <div>
-    <span className="session-title">Add Health Consultation</span>
+    <span className="session-title">Cập nhập bài viết</span>
+    <br /><br /><br />
+
     {listOfHealthAdvice&&oldData && (
       <Form
         {...layout}
@@ -100,17 +102,17 @@ export const HealthConsultationEdit = () => {
           context:oldData.context
         }}
       >
-        <Form.Item name="title" label="Title" rules={[{ required: true }]}>
+        <Form.Item name="title" label="Tiêu đề" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
         <Form.Item
           name="idListOfHealthAdvice"
-          label="Health Advice"
+          label="Danh mục bài viết"
           rules={[{ required: true }]}
         >
           <Select
             showSearch
-            placeholder="Select a Health Advice"
+            placeholder="Chọn danh mục"
             optionFilterProp="children"
             onSearch={onSearch}
             filterOption={(input: any, option: any) =>
@@ -125,20 +127,20 @@ export const HealthConsultationEdit = () => {
           </Select>
         </Form.Item>
 
-        <Form.Item name="image" label="Image" rules={[{ required: true }]}>
-          <Input onChange={handleDisplayImage} placeholder="Add link image" />
+        <Form.Item name="image" label="Hình ảnh" rules={[{ required: true }]}>
+          <Input onChange={handleDisplayImage} placeholder="Nhập liên kết hình ảnh" />
         </Form.Item>
-        {<Image width={200} style={{ marginLeft: 321 }} src={!linkImage?oldData.image:linkImage} />}
+        {<Image width={200} src={!linkImage?oldData.image:linkImage} />}
         <Form.Item
           name="context"
-          label="Content"
+          label="Nội dung"
           rules={[{ required: true }]}
         >
           <Input.TextArea autoSize={{ minRows: 6 }} />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" danger htmlType="submit">
-            Save
+            Cập nhập
           </Button>
         </Form.Item>
       </Form>

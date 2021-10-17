@@ -13,17 +13,17 @@ export const VaccineCreate = () => {
     setNewVaccine(vaccine);
   };
   const validateMessages = {
-    required: "${label} is required!",
+    required: "${label} không được để trống!",
     types: {
-      number: "${label} is not a valid number!",
+      number: "${label} chỉ được nhập số!",
     },
     number: {
-      range: "${label} must be bigger ${min} ",
+      range: "${label} phải lớn hơn ${min} ",
     },
   };
 
   const layout = {
-    labelCol: { span: 8 },
+    labelCol: { span: 2 },
     wrapperCol: { span: 16 },
   };
   React.useEffect(() => {
@@ -35,7 +35,7 @@ export const VaccineCreate = () => {
         await postData(Constant.URLBASE + "/api/Vaccines", data)
           .then((res) => {
             if (res.status === 201) {
-              message.success("Add success .");
+              message.success("Thành công");
               push("/vaccine/list");
             }
           })
@@ -47,33 +47,34 @@ export const VaccineCreate = () => {
   }, [newVaccine,push]);
   return (
     <div>
-      <span className="session-title">Add Vaccine</span>
+      <span className="session-title">Tạo mới Vaccine</span>
+      <br /><br /><br />
       <Form
         {...layout}
         name="nest-messages"
         onFinish={onFinish}
         validateMessages={validateMessages}
       >
-        <Form.Item name="nameVaccine" label="Name" rules={[{ required: true }]}>
+        <Form.Item name="nameVaccine" label="Tên Vaccine" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
         <Form.Item
           name="qty"
-          label="Quantity"
+          label="Số lượng"
           rules={[{ required: true, type: "number", min: 0 }]}
         >
           <InputNumber />
         </Form.Item>
         <Form.Item
           name="description"
-          label="Description"
+          label="Mô tả"
           rules={[{ required: true }]}
         >
           <Input.TextArea autoSize  />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" danger htmlType="submit">
-            Save
+            Lưu
           </Button>
         </Form.Item>
       </Form>
